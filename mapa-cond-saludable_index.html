@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa de recursos i conductes alternatives</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Manrope:wght@500;700;800&display=swap');
+
+    :root {
+      --rosa: #f7d6e0;
+      --lila: #d8c5ff;
+      --blau: #cfe8ff;
+      --verd: #dff5e1;
+      --groc: #fff2c2;
+      --text: #374151;
+      --titol: #4b5563;
+      --blanc: #ffffff;
+      --accent: #7c83fd;
+      --accent-2: #5f7cf6;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Nunito", "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #fffafc 0%, #f5f7ff 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .barra-superior {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 4px 16px rgba(124, 131, 253, 0.12);
+    }
+
+    .barra-superior .contenidor-nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      color: var(--accent-2);
+      font-size: 1.08rem;
+      letter-spacing: 0.04em;
+    }
+
+    .menu {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: var(--titol);
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 999px;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .menu a:hover {
+      background: #f2eaff;
+      color: var(--accent);
+    }
+
+    .contenidor {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+      position: relative;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.28;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .blob-rosa { width: 180px; height: 180px; background: var(--rosa); top: 40px; right: -40px; }
+    .blob-blau { width: 140px; height: 140px; background: var(--blau); bottom: 80px; left: -30px; }
+
+    header {
+      background: var(--blanc);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 14px 32px rgba(124, 131, 253, 0.15);
+      margin-bottom: 20px;
+      border: 1px solid #f0e9ff;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--lila), var(--blau));
+      color: #4c3f8d;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    h1, h2, h3 { line-height: 1.2; color: var(--titol); }
+    h1 { font-size: 2rem; margin: 0 0 10px; }
+    h2 { font-size: 1.35rem; margin-top: 0; }
+    p { margin-top: 0; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hero p { font-size: 1.02rem; }
+
+    .mapa {
+      background: linear-gradient(135deg, #fdf7ff 0%, #f4f8ff 100%);
+      border-radius: 22px;
+      padding: 16px;
+      border: 1px dashed #d9cfff;
+      display: grid;
+      gap: 10px;
+    }
+
+    .nodo {
+      background: var(--blanc);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nodo:nth-child(1) { border-left: 5px solid #ff8fab; }
+    .nodo:nth-child(3) { border-left: 5px solid #6ec5b8; }
+    .nodo:nth-child(5) { border-left: 5px solid #8ca6ff; }
+    .nodo:nth-child(7) { border-left: 5px solid #f6c86b; }
+
+    .icono {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      background: #f7f3ff;
+    }
+
+    .nodo h3 { margin: 0 0 2px; font-size: 1rem; }
+    .nodo p { font-size: 0.92rem; margin: 0; }
+
+    .fletxa { text-align: center; color: var(--accent); font-size: 1.2rem; font-weight: 700; }
+
+    .alerta {
+      background: #fff4f6;
+      border-left: 5px solid #f28ba8;
+      padding: 14px 16px;
+      border-radius: 14px;
+      margin: 20px 0;
+      color: #8f3b54;
+    }
+
+    .selector-necessitats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 10px;
+    }
+
+    .opcio-necessitat {
+      border: 1px solid #d9d7ff;
+      background: white;
+      color: var(--accent-2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .opcio-necessitat:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(92, 124, 246, 0.14);
+    }
+
+    .opcio-necessitat.escollida {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white;
+      border-color: transparent;
+    }
+
+    .resposta-rapida {
+      margin-top: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: white;
+      border-left: 5px solid var(--accent);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+    }
+
+    .missatge-correcte {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: #edfff4;
+      color: #1f7a45;
+      font-weight: 800;
+      border: 1px solid #c7f2d6;
+      display: inline-block;
+    }
+
+    .targeta-cap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn-expand {
+      border: none;
+      background: #f4f2ff;
+      color: var(--accent-2);
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 7px 10px;
+      cursor: pointer;
+    }
+
+    .detall-ocult[hidden] {
+      display: none;
+    }
+
+    .graella {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+      margin: 18px 0 24px;
+    }
+
+    .targeta {
+      background: var(--blanc);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.06);
+      border-top: 4px solid var(--accent);
+    }
+
+    .targeta h3 { margin: 0 0 8px; font-size: 1.08rem; }
+    .targeta ul { padding-left: 18px; margin: 0; }
+
+    .formulari-seccio {
+      background: linear-gradient(135deg, #fffdf8 0%, #f7f9ff 100%);
+      border: 1px solid #e8e7ff;
+      border-radius: 24px;
+      padding: 20px;
+      margin: 20px 0 24px;
+      box-shadow: 0 12px 28px rgba(124, 131, 253, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tasca {
+      background: white;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid #ece7ff;
+      margin-top: 12px;
+    }
+
+    .tasca ol {
+      padding-left: 18px;
+      margin: 10px 0 0;
+    }
+
+    .tasca li {
+      margin-bottom: 10px;
+    }
+
+    .tasca strong {
+      color: var(--accent-2);
+    }
+
+    .selector-casos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 10px;
+    }
+
+    .boto-cas {
+      border: 1px solid #d9d7ff;
+      background: white;
+      color: var(--accent-2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .boto-cas:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(92, 124, 246, 0.14);
+    }
+
+    .boto-cas.actiu {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white;
+      border-color: transparent;
+    }
+
+    .resposta-cas {
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #f7fbff;
+      border-left: 5px solid var(--accent);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+    }
+
+    .resposta-cas p {
+      margin-bottom: 6px;
+    }
+
+    .opcions-resposta {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .opcio-resposta {
+      border: 1px solid #d9d7ff;
+      background: white;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .opcio-resposta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(92, 124, 246, 0.12);
+    }
+
+    .opcio-resposta.correcta {
+      border-color: #2f9e44;
+      background: #f0fff4;
+      color: #1f7a45;
+    }
+
+    .opcio-resposta.incorrecta {
+      border-color: #e03131;
+      background: #fff5f5;
+      color: #c92a2a;
+    }
+
+    .feedback-resposta {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #f7f9ff;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .formulari-seccio::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      right: -20px;
+      width: 110px;
+      height: 110px;
+      background: rgba(255, 214, 227, 0.35);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .formulari-seccio form {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .formulari-seccio label {
+      font-weight: 800;
+      color: var(--accent-2);
+      font-size: 0.98rem;
+    }
+
+    .formulari-seccio select,
+    .formulari-seccio input,
+    .formulari-seccio button {
+      font: inherit;
+      border-radius: 14px;
+      border: 1px solid #d9d7ff;
+      padding: 11px 12px;
+    }
+
+    .formulari-seccio button {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 8px 18px rgba(92, 124, 246, 0.22);
+    }
+
+    .formulari-seccio button:hover { transform: translateY(-1px); box-shadow: 0 10px 20px rgba(92, 124, 246, 0.26); }
+
+    .resposta {
+      margin-top: 14px;
+      padding: 14px;
+      background: white;
+      border-radius: 16px;
+      border-left: 5px solid var(--accent);
+      color: #4b5563;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.04);
+    }
+
+    .recursos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .recurs {
+      background: linear-gradient(135deg, #fffdf8 0%, #f6f9ff 100%);
+      border: 1px solid #e8e7ff;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .recurs strong { color: var(--accent-2); }
+    .recurs a {
+      color: var(--accent-2);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .recurs a:hover {
+      text-decoration: underline;
+    }
+
+    .peu {
+      margin-top: 24px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.96rem;
+      background: #f9f7ff;
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    @media (max-width: 780px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 1.6rem; }
+      header { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="barra-superior">
+    <div class="contenidor-nav">
+      <div class="logo">🌱 MindMap Youth</div>
+      <div class="menu">
+        <a href="#inici">Inici</a>
+        <a href="#conductes">Conductes</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#ajuda">Ajuda</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="contenidor" id="inici">
+    <div class="blob blob-rosa"></div>
+    <div class="blob blob-blau"></div>
+    <header>
+      <div class="hero">
+        <div>
+          <span class="etiqueta">🧭 Prevenció i suport</span>
+          <h1>Mapa de recursos i conductes alternatives per a adolescents</h1>
+          <p>Segons la perspectiva de l’OMS sobre salut mental i prevenció del suïcidi, aquest mapa proposa passos senzills, segurs i útils quan apareix un impuls o un estat de dolor emocional intens.</p>
+        </div>
+        <div class="mapa">
+          <div class="nodo">
+            <div class="icono">🧘</div>
+            <div><h3>1. Pausa</h3><p>Atura’t i allunya’t del risc.</p></div>
+          </div>
+          <div class="fletxa">↓</div>
+          <div class="nodo">
+            <div class="icono">💧</div>
+            <div><h3>2. Calma</h3><p>Respira lentament i beu aigua.</p></div>
+          </div>
+          <div class="fletxa">↓</div>
+          <div class="nodo">
+            <div class="icono">🤝</div>
+            <div><h3>3. Contacte</h3><p>Parla amb algú de confiança.</p></div>
+          </div>
+          <div class="fletxa">↓</div>
+          <div class="nodo">
+            <div class="icono">🎵</div>
+            <div><h3>4. Alternativa</h3><p>Fes una activitat que et relaxi.</p></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="alerta">
+      <strong>⚠️ Important:</strong> si hi ha risc immediat de fer-se mal o de suïcidi, truqueu al 112 o aneu a urgències. Si esteu a Espanya, també podeu contactar amb la línia 024 o amb un servei de salut mental de referència.
+    </section>
+
+    <section class="formulari-seccio" aria-labelledby="explora-titol">
+      <h2 id="explora-titol">🧩 Explora una estratègia ràpida</h2>
+      <p>Tria el que et faria més falta ara mateix i la pàgina et donarà una proposta segura i concreta.</p>
+      <div class="selector-necessitats" role="group" aria-label="Escull una necessitat">
+        <button class="opcio-necessitat" type="button" data-necessitat="calma">🧘 Calma</button>
+        <button class="opcio-necessitat" type="button" data-necessitat="connectar">🤝 Connectar</button>
+        <button class="opcio-necessitat" type="button" data-necessitat="expressar">📝 Expressar</button>
+        <button class="opcio-necessitat" type="button" data-necessitat="distraccio">🎵 Distracció</button>
+      </div>
+      <div class="resposta-rapida" id="respostaRapida">Selecciona una opció per veure una proposta.</div>
+      <div class="missatge-correcte" id="missatgeCorrecte" aria-live="polite"></div>
+    </section>
+
+    <section id="conductes">
+      <h2>🫶 Conductes alternatives més útils</h2>
+      <p>A continuació es mostren algunes conductes autolesives que poden aparèixer amb més freqüència entre adolescents, juntament amb alternatives adaptatives i segures que poden ajudar a reduir la intensitat del dolor o de l’impuls.</p>
+      <div class="graella">
+        <article class="targeta">
+          <div class="targeta-cap">
+            <h3>💢 Talls superficials</h3>
+            <button class="btn-expand" type="button" data-target="detall-talls">Mostrar</button>
+          </div>
+          <div class="detall-ocult" id="detall-talls" hidden>
+            <ul>
+              <li>Alternativa: pressionar una pilota o una manta amb força.</li>
+              <li>Alternativa: fer estiraments o caminar ràpidament durant 10 minuts.</li>
+              <li>Alternativa: escriure el que es sent en un full o en una aplicació de notes.</li>
+              <li>Recordatori: si hi ha risc immediat, demanar ajuda professional.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="targeta">
+          <div class="targeta-cap">
+            <h3>🔥 Cremats petits</h3>
+            <button class="btn-expand" type="button" data-target="detall-cremats">Mostrar</button>
+          </div>
+          <div class="detall-ocult" id="detall-cremats" hidden>
+            <ul>
+              <li>Alternativa: col·locar una compressa tèbia o una roba suau sobre la zona de tensió.</li>
+              <li>Alternativa: posar-se una peça de roba o una manta calenta com a sensació de confort.</li>
+              <li>Alternativa: fer respiracions lentes i comptar fins a 100 per allunyar-se de l’impuls.</li>
+              <li>Recordatori: si el dolor o la urgència persisteixen, contactar amb algú de confiança.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="targeta">
+          <div class="targeta-cap">
+            <h3>🪮 Arrencar-se el pèl</h3>
+            <button class="btn-expand" type="button" data-target="detall-pels">Mostrar</button>
+          </div>
+          <div class="detall-ocult" id="detall-pels" hidden>
+            <ul>
+              <li>Alternativa: subjectar una goma elàstica o un objecte de textura suau amb la mà.</li>
+              <li>Alternativa: fer servir una eina de relaxació com ara un anell de stress o una pilota antiestrès.</li>
+              <li>Alternativa: canviar de lloc i anar a un espai amb gent o amb llum natural.</li>
+              <li>Recordatori: la sensació de control pot venir de la pausa i la connexió social.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="targeta">
+          <div class="targeta-cap">
+            <h3>🧠 Pensaments repetitius o sobrecàrrega emocional</h3>
+            <button class="btn-expand" type="button" data-target="detall-pensaments">Mostrar</button>
+          </div>
+          <div class="detall-ocult" id="detall-pensaments" hidden>
+            <ul>
+              <li>Alternativa: fer respiracions 4-4-6 durant 2 minuts.</li>
+              <li>Alternativa: parlar amb una persona de confiança o enviar un missatge curt.</li>
+              <li>Alternativa: fer una activitat creativa com dibuixar, escoltar música o escriure.</li>
+              <li>Recordatori: si el pensament és persistent, demanar suport professional és una decisió valent.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="formulari-seccio" aria-labelledby="tasca-titol">
+      <h2 id="tasca-titol">🧠 Tasca de reflexió: conductes de risc i alternatives de resposta</h2>
+      <p>Objectiu: reconèixer conductes de risc i proposar alternatives segures, adaptatives i útils.</p>
+      <div class="tasca">
+        <strong>Instruccions:</strong>
+        <ol>
+          <li>Llegeix cada situació i identifica quina conducta de risc pot aparèixer.</li>
+          <li>Proposa almenys dues alternatives de resposta segures.</li>
+          <li>Indica qui podria donar suport en aquell moment.</li>
+        </ol>
+      </div>
+      <div class="tasca">
+        <strong>Conductes funcionals: tria la resposta correcta</strong>
+        <p>Fes clic sobre cada conducta i després tria l’alternativa funcional correcta.</p>
+        <div class="selector-casos">
+          <button class="boto-cas" type="button" data-cas="talls">💢 Talls superficials</button>
+          <button class="boto-cas" type="button" data-cas="cremats">🔥 Cremats petits</button>
+          <button class="boto-cas" type="button" data-cas="pels">🪮 Arrencar-se el pèl</button>
+          <button class="boto-cas" type="button" data-cas="pensaments">🧠 Pensaments repetitius</button>
+          <button class="boto-cas" type="button" data-cas="rabia">😠 Ràbia o frustració</button>
+          <button class="boto-cas" type="button" data-cas="soledat">💛 Sentiment de soledat</button>
+          <button class="boto-cas" type="button" data-cas="drogues">🍷 Alcohol o drogues</button>
+          <button class="boto-cas" type="button" data-cas="alimentacio">🥣 Conductes alimentàries extremes</button>
+          <button class="boto-cas" type="button" data-cas="perill">⚠️ Situacions de risc</button>
+        </div>
+        <div class="resposta-cas" id="respostaCas">
+          <strong id="titolCas">Fes clic sobre una conducta</strong>
+          <p id="textCas">Aquí apareixerà la situació per resoldre.</p>
+          <div class="opcions-resposta" id="opcionsResposta"></div>
+          <div class="feedback-resposta" id="feedbackResposta"></div>
+        </div>
+      </div>
+      <div class="tasca">
+        <strong>Pregunta de tancament:</strong>
+        <p>Quina alternativa creus que seria més útil en un moment de crisi i per què?</p>
+      </div>
+    </section>
+
+    <section class="formulari-seccio" aria-labelledby="autoajuda-titol">
+      <h2 id="autoajuda-titol">📝 Autoemplenable de suport ràpid</h2>
+      <p>Indica quin impuls o conducta de risc vols canviar i la pàgina et suggerirà una alternativa segura i adaptativa.</p>
+      <form id="selectorAlternatives">
+        <label for="conducta">Quina conducta de risc vols substituir?</label>
+        <select id="conducta" name="conducta">
+          <option value="talls">Talls superficials</option>
+          <option value="cremats">Cremats petits</option>
+          <option value="pels">Arrencar-se el pèl</option>
+          <option value="pensaments">Pensaments repetitius</option>
+          <option value="rabia">Ràbia o frustració intensa</option>
+          <option value="soledat">Sentiment de soledat</option>
+        </select>
+
+        <label for="estat">Com et sents ara?</label>
+        <input id="estat" name="estat" type="text" placeholder="Ex. enfadat/a, aclaparat/a, molt tens" />
+
+        <button type="submit">Suggerir alternativa</button>
+      </form>
+
+      <div class="resposta" id="resposta" aria-live="polite">
+        Tria una conducta i prem el botó per veure una proposta segura.
+      </div>
+    </section>
+
+    <section id="recursos">
+      <h2>🌈 Recursos de suport</h2>
+      <div class="recursos">
+        <div class="recurs">
+          <strong>Família i amistats</strong>
+          <p>Persones que escolten, no jutgen i poden acompanyar en moments de crisi.</p>
+        </div>
+        <div class="recurs">
+          <strong>Professorat o tutor/a</strong>
+          <p>És important parlar amb algú del centre educatiu si hi ha senyals de desbordament.</p>
+        </div>
+        <div class="recurs">
+          <strong>Psicòleg o psiquiatre</strong>
+          <p>Un professional pot ajudar a identificar causes, estratègies i suport continu.</p>
+        </div>
+        <div class="recurs">
+          <strong>Serveis d’emergència</strong>
+          <p>112, urgències o la línia 024 si es viu a Espanya i hi ha risc immediat.</p>
+        </div>
+      </div>
+
+      <div class="recursos" style="margin-top: 16px;">
+        <div class="recurs">
+          <strong>Ministerio de Sanidad</strong>
+          <p><a href="https://www.sanidad.gob.es/ciudadanos/saludMental/home.htm" target="_blank" rel="noopener noreferrer">Informació sobre salut mental i prevenció</a></p>
+        </div>
+        <div class="recurs">
+          <strong>Fundación Salud Mental España</strong>
+          <p><a href="https://www.fundacionsaludmental.org/" target="_blank" rel="noopener noreferrer">Recursos i orientació per a joves i famílies</a></p>
+        </div>
+        <div class="recurs">
+          <strong>Línia 024</strong>
+          <p><a href="https://www.024info.com/" target="_blank" rel="noopener noreferrer">Atenció psicològica i orientació emocional</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="alerta" id="ajuda" style="margin-top: 26px;">
+      <strong>🚑 Si és una situació urgent:</strong>
+      <ul style="margin: 8px 0 0 18px;">
+        <li>Truca al 112 si hi ha risc immediat.</li>
+        <li>Acudeix a urgències o demana ajuda a una persona adulta de confiança.</li>
+        <li>Si estàs a Espanya, també pots contactar amb la línia 024.</li>
+      </ul>
+    </section>
+
+    <section class="peu">
+      <p>💛 No cal afrontar-ho tot sol/a. Demanar ajuda és una manera de cuidar-se i de reprendre el control.</p>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('selectorAlternatives');
+    const resposta = document.getElementById('resposta');
+    const respostaRapida = document.getElementById('respostaRapida');
+    const missatgeCorrecte = document.getElementById('missatgeCorrecte');
+    const opcionsNecessitat = document.querySelectorAll('.opcio-necessitat');
+    const botonsExpandir = document.querySelectorAll('.btn-expand');
+    const botonsCas = document.querySelectorAll('.boto-cas');
+    const respostaCas = document.getElementById('respostaCas');
+    const titolCas = document.getElementById('titolCas');
+    const textCas = document.getElementById('textCas');
+    const opcionsResposta = document.getElementById('opcionsResposta');
+    const feedbackResposta = document.getElementById('feedbackResposta');
+
+    const suggeriments = {
+      talls: {
+        titol: 'Alternativa per a talls superficials',
+        text: 'Fes una pausa de 10 minuts, allunya’t del risc, pressiona una pilota o una manta amb força i escriu en un full el que estàs vivint.'
+      },
+      cremats: {
+        titol: 'Alternativa per a cremats petits',
+        text: 'Pensa en una activitat de relaxació: respiracions lentes, comptar fins a 100 i posar-te una peça de roba o una manta càlida per a confort.'
+      },
+      pels: {
+        titol: 'Alternativa per a arrencar-se el pèl',
+        text: 'Agafa un objecte suau o una goma elàstica amb la mà, canvia de lloc i busca una persona de confiança o un espai amb gent.'
+      },
+      pensaments: {
+        titol: 'Alternativa per a pensaments repetitius',
+        text: 'Fes respiracions 4-4-6 durant dos minuts, escolta música tranquil·la o escriu un missatge curt a algú de confiança.'
+      },
+      rabia: {
+        titol: 'Alternativa per a ràbia o frustració intensa',
+        text: 'Camina ràpidament, fes estiraments o expressa la ràbia amb una eina segura com escriure o cridar dins d’una manta.'
+      },
+      soledat: {
+        titol: 'Alternativa per a soledat',
+        text: 'Contacta amb una persona propera, entra a un espai amb gent o fes una activitat curta amb altres persones.'
+      }
+    };
+
+    const respostesCas = {
+      talls: {
+        titol: 'Talls superficials',
+        text: 'Quina alternativa funcional seria millor en aquest cas?',
+        opcions: [
+          'Pressionar una pilota o una manta amb força',
+          'Fer servir un objecte tallant',
+          'Ignorar el que sents'
+        ],
+        correcta: 0
+      },
+      cremats: {
+        titol: 'Cremats petits',
+        text: 'Quina seria una resposta funcional i segura?',
+        opcions: [
+          'Posar-se una peça de roba càlida i fer respiracions lentes',
+          'Exposar-se al foc',
+          'No fer res i esperar'
+        ],
+        correcta: 0
+      },
+      pels: {
+        titol: 'Arrencar-se el pèl',
+        text: 'Quina acció funcional pot substituir la conducta?',
+        opcions: [
+          'Subjectar una goma elàstica o un objecte suau',
+          'Arrencar-se el pèl amb més força',
+          'Aïllar-se del món'
+        ],
+        correcta: 0
+      },
+      pensaments: {
+        titol: 'Pensaments repetitius',
+        text: 'Quina alternativa ajuda a reduir la sobrecàrrega emocional?',
+        opcions: [
+          'Fer respiracions 4-4-6 i escriure un missatge a algú de confiança',
+          'Repetir el pensament una i altra vegada',
+          'Evitar parlar amb ningú'
+        ],
+        correcta: 0
+      },
+      rabia: {
+        titol: 'Ràbia o frustració intensa',
+        text: 'Quina resposta funcional pot ajudar a descarregar la ràbia?',
+        opcions: [
+          'Caminar ràpidament, fer estiraments o escriure el que sents',
+          'Agressió cap a algú',
+          'Tancar-se en silenci sense fer res'
+        ],
+        correcta: 0
+      },
+      soledat: {
+        titol: 'Sentiment de soledat',
+        text: 'Quina alternativa funcional pot millorar l’estat emocional?',
+        opcions: [
+          'Contactar amb una persona propera o entrar en un espai amb gent',
+          'Aïllar-se encara més',
+          'Passar tot el dia sense fer res'
+        ],
+        correcta: 0
+      },
+      drogues: {
+        titol: 'Consum intencionat i repetit d’alcohol o altres drogues',
+        text: 'Quina resposta funcional seria més adequada?',
+        opcions: [
+          'Buscar ajuda professional i allunyar-se del consum',
+          'Augmentar el consum per controlar l’emoció',
+          'Continuar sense parlar amb ningú'
+        ],
+        correcta: 0
+      },
+      alimentacio: {
+        titol: 'Conductes alimentàries extremes',
+        text: 'Quina alternativa funcional pot ajudar?',
+        opcions: [
+          'Demanar suport i recuperar una rutina alimentària segura',
+          'Continuar amb comportaments extremats',
+          'Ignorar el cos i la necessitat de menjar amb regularitat'
+        ],
+        correcta: 0
+      },
+      perill: {
+        titol: 'Exposar-se deliberadament a situacions molt perilloses',
+        text: 'Quina resposta funcional seria la més adient?',
+        opcions: [
+          'Evitar la situació de risc i demanar ajuda immediata',
+          'Entrar-hi de nou per sentir adrenalina',
+          'No fer cas del perill'
+        ],
+        correcta: 0
+      }
+    };
+
+    let casActual = null;
+
+    function mostrarOpcions(casId) {
+      const respostaSeleccionada = respostesCas[casId];
+      casActual = casId;
+      titolCas.textContent = respostaSeleccionada.titol;
+      textCas.textContent = respostaSeleccionada.text;
+      opcionsResposta.innerHTML = '';
+      feedbackResposta.textContent = '';
+
+      respostaSeleccionada.opcions.forEach((opcio, index) => {
+        const boto = document.createElement('button');
+        boto.type = 'button';
+        boto.className = 'opcio-resposta';
+        boto.textContent = opcio;
+        boto.addEventListener('click', () => {
+          const esCorrecta = index === respostaSeleccionada.correcta;
+          document.querySelectorAll('.opcio-resposta').forEach((item) => item.classList.remove('correcta', 'incorrecta'));
+          if (esCorrecta) {
+            boto.classList.add('correcta');
+            feedbackResposta.textContent = 'Correcte! Aquesta és una conducta funcional i segura.';
+          } else {
+            boto.classList.add('incorrecta');
+            feedbackResposta.textContent = 'No és l’opció correcta. Prova amb una resposta més funcional i segura.';
+          }
+        });
+        opcionsResposta.appendChild(boto);
+      });
+    }
+
+    botonsCas.forEach((boton) => {
+      boton.addEventListener('click', () => {
+        botonsCas.forEach((item) => item.classList.remove('actiu'));
+        boton.classList.add('actiu');
+        mostrarOpcions(boton.dataset.cas);
+      });
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const conducta = document.getElementById('conducta').value;
+      const estat = document.getElementById('estat').value.trim();
+      const suggeriment = suggeriments[conducta];
+
+      if (!suggeriment) {
+        resposta.innerHTML = '<strong>Proposta:</strong> Pren una pausa i busca suport immediat si el risc és alt.';
+        return;
+      }
+
+      let missatge = `<strong>${suggeriment.titol}</strong><br>${suggeriment.text}`;
+
+      if (estat) {
+        missatge += `<br><br><strong>Per al teu estat actual:</strong> ${estat}. Pots començar amb una pausa curta i contactar amb algú de confiança.`;
+      }
+
+      if (conducta === 'talls' || conducta === 'cremats' || conducta === 'pels') {
+        missatge += '<br><br><strong>Recordatori:</strong> si el risc és immediat, demana ajuda professional o truca al 112 o a la línia 024.';
+      }
+
+      resposta.innerHTML = missatge;
+    });
+
+    const missatgesRapids = {
+      calma: 'Fes una pausa de 2 minuts, respira lentament i allunya’t del lloc o de l’objecte que intensifica l’impuls.',
+      connectar: 'Envia un missatge curt a algú de confiança o entra en un espai amb gent durant uns minuts.',
+      expressar: 'Escriu el que sents en un full o en una nota, o posa música tranquil·la mentre respiraves.',
+      distraccio: 'Fes un passeig curt, estira’t o dedica 5 minuts a una activitat senzilla amb les mans.'
+    };
+
+    opcionsNecessitat.forEach((boton) => {
+      boton.addEventListener('click', () => {
+        opcionsNecessitat.forEach((item) => item.classList.remove('escollida'));
+        boton.classList.add('escollida');
+        const necessitat = boton.dataset.necessitat;
+        respostaRapida.innerHTML = `<strong>Proposta ràpida:</strong> ${missatgesRapids[necessitat]}`;
+        missatgeCorrecte.textContent = 'Correcte!';
+      });
+    });
+
+    botonsExpandir.forEach((boton) => {
+      boton.addEventListener('click', () => {
+        const target = document.getElementById(boton.dataset.target);
+        const mostrar = target.hidden;
+        target.hidden = !mostrar;
+        boton.textContent = mostrar ? 'Ocultar' : 'Mostrar';
+      });
+    });
+  </script>
+</body>
+</html>
