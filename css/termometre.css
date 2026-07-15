@@ -179,3 +179,28 @@
     z-index: 2;
     transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
+/* ==========================================
+   ESTIL DEL NOU TÍTOL PASTEL
+   ========================================== */
+.capçalera-pagina {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: -10px; /* Reduïm l'espai abans de la caixa principal */
+    font-family: 'Nunito', 'Quicksand', 'Segoe UI', sans-serif;
+}
+
+.capçalera-pagina h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #6f73ee; /* El lila de MindMap Youth */
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+    text-transform: uppercase; /* Perquè estiga tot en majúscules */
+}
+
+.subtitol-pagina {
+    font-size: 1.1rem;
+    color: #8b90b6; /* Un gris lila pastel molt suau */
+    margin: 0;
+    font-weight: 500;
+}
