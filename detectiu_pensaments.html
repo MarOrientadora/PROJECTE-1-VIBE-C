@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Detectiu dels pensaments | MindMap Youth</title>
+
+  <style>
+    :root {
+      --blau: #6279f5;
+      --blau-fosc: #4355c7;
+      --lila-clar: #eef0ff;
+      --rosa: #f37aa7;
+      --rosa-clar: #fff0f5;
+      --verd: #2e9d68;
+      --verd-clar: #eaf8f0;
+      --roig: #c94d62;
+      --roig-clar: #fff0f2;
+      --text: #4e5669;
+      --text-secundari: #737b8d;
+      --blanc: #ffffff;
+      --fons: #f4f6ff;
+      --vora: #e2e6f4;
+      --ombra: 0 15px 40px rgba(72, 83, 140, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #f4f6ff 45%,
+          #fff7fa 100%
+        );
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid rgba(98, 121, 245, 0.35);
+      outline-offset: 3px;
+    }
+
+    .pagina {
+      width: min(760px, 92%);
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .barra-superior {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .marca-icona {
+      font-size: 1.8rem;
+    }
+
+    .marca-text {
+      color: var(--blau);
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .boto-tornar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 15px;
+      border: 1px solid var(--vora);
+      border-radius: 14px;
+      color: var(--text);
+      background: var(--blanc);
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 5px 15px rgba(72, 83, 140, 0.08);
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .boto-tornar:hover {
+      transform: translateY(-2px);
+      border-color: var(--blau);
+    }
+
+    .capcalera {
+      margin-bottom: 24px;
+      padding: 28px;
+      border-radius: 26px;
+      background:
+        linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f0f1ff 55%,
+          #fff0f5 100%
+        );
+      box-shadow: var(--ombra);
+      text-align: center;
+    }
+
+    .capcalera-icona {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 2.7rem;
+    }
+
+    .capcalera h1 {
+      margin: 0 0 10px;
+      color: var(--blau);
+      font-size: clamp(1.9rem, 6vw, 2.8rem);
+      line-height: 1.15;
+    }
+
+    .capcalera p {
+      max-width: 590px;
+      margin: 0 auto;
+      color: var(--text-secundari);
+      line-height: 1.6;
+    }
+
+    .targeta {
+      padding: 26px;
+      border: 1px solid rgba(226, 230, 244, 0.85);
+      border-radius: 26px;
+      background-color: var(--blanc);
+      box-shadow: var(--ombra);
+    }
+
+    .progres-capcalera {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 11px;
+      color: var(--text-secundari);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .barra-progres {
+      width: 100%;
+      height: 13px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      border-radius: 999px;
+      background-color: #e9ecf7;
+    }
+
+    .barra-progres-interior {
+      width: 10%;
+      height: 100%;
+      border-radius: inherit;
+      background:
+        linear-gradient(
+          90deg,
+          var(--blau),
+          var(--rosa)
+        );
+      transition: width 0.35s ease;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      margin-bottom: 13px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      color: var(--blau-fosc);
+      background-color: var(--lila-clar);
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .situacio {
+      margin: 0 0 10px;
+      color: var(--text);
+      font-size: clamp(1.25rem, 4vw, 1.6rem);
+      line-height: 1.4;
+    }
+
+    .pregunta {
+      margin: 0 0 22px;
+      color: var(--text-secundari);
+      line-height: 1.5;
+    }
+
+    .opcions {
+      display: grid;
+      gap: 13px;
+    }
+
+    .opcio {
+      position: relative;
+      width: 100%;
+      padding: 16px 18px;
+      border: 2px solid var(--vora);
+      border-radius: 17px;
+      color: var(--text);
+      background-color: var(--blanc);
+      text-align: left;
+      line-height: 1.5;
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .opcio:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: var(--blau);
+      background-color: #f7f8ff;
+    }
+
+    .opcio:disabled {
+      cursor: default;
+    }
+
+    .opcio.correcta {
+      border-color: var(--verd);
+      color: #20784e;
+      background-color: var(--verd-clar);
+    }
+
+    .opcio.incorrecta {
+      border-color: var(--roig);
+      color: #a43a4e;
+      background-color: var(--roig-clar);
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 17px;
+      line-height: 1.6;
+    }
+
+    .feedback.visible {
+      display: block;
+    }
+
+    .feedback.correcte {
+      border-left: 5px solid var(--verd);
+      background-color: var(--verd-clar);
+    }
+
+    .feedback.incorrecte {
+      border-left: 5px solid var(--roig);
+      background-color: var(--roig-clar);
+    }
+
+    .feedback h3 {
+      margin: 0 0 7px;
+    }
+
+    .feedback p {
+      margin: 0;
+    }
+
+    .zona-accio {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 22px;
+    }
+
+    .boto-principal {
+      display: none;
+      padding: 13px 21px;
+      border: 0;
+      border-radius: 14px;
+      color: var(--blanc);
+      background:
+        linear-gradient(
+          135deg,
+          var(--blau),
+          var(--blau-fosc)
+        );
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(67, 85, 199, 0.22);
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .boto-principal.visible {
+      display: inline-block;
+    }
+
+    .boto-principal:hover {
+      transform: translateY(-2px);
+      opacity: 0.94;
+    }
+
+    .recordatori {
+      margin-top: 24px;
+      padding: 17px;
+      border-radius: 17px;
+      color: #8b4762;
+      background:
+        linear-gradient(
+          135deg,
+          var(--rosa-clar),
+          #fff8fb
+        );
+      line-height: 1.55;
+    }
+
+    .recordatori strong {
+      color: #ab3f68;
+    }
+
+    .pantalla-final {
+      display: none;
+      text-align: center;
+    }
+
+    .pantalla-final.visible {
+      display: block;
+    }
+
+    .final-icona {
+      margin-bottom: 10px;
+      font-size: 3rem;
+    }
+
+    .pantalla-final h2 {
+      margin: 0;
+      color: var(--blau);
+      font-size: 2rem;
+    }
+
+    .puntuacio-final {
+      margin: 22px 0;
+      color: var(--rosa);
+      font-size: clamp(2rem, 8vw, 3rem);
+      font-weight: 900;
+    }
+
+    .missatge-final {
+      margin-bottom: 22px;
+      padding: 20px;
+      border-radius: 18px;
+      background-color: var(--lila-clar);
+      line-height: 1.65;
+    }
+
+    .aprenentatge-final {
+      margin-bottom: 24px;
+      padding: 19px;
+      border-radius: 18px;
+      background-color: var(--rosa-clar);
+      text-align: left;
+      line-height: 1.65;
+    }
+
+    .aprenentatge-final h3 {
+      margin-top: 0;
+      color: #a74669;
+    }
+
+    .aprenentatge-final ul {
+      margin-bottom: 0;
+      padding-left: 22px;
+    }
+
+    .botons-finals {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .boto-reiniciar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 14px;
+      color: var(--blanc);
+      background:
+        linear-gradient(
+          135deg,
+          var(--blau),
+          var(--blau-fosc)
+        );
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .peu {
+      margin-top: 24px;
+      color: var(--text-secundari);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .pagina {
+        width: min(94%, 760px);
+        padding-top: 16px;
+      }
+
+      .barra-superior {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .marca {
+        justify-content: center;
+      }
+
+      .boto-tornar {
+        width: 100%;
+      }
+
+      .capcalera,
+      .targeta {
+        padding: 21px;
+        border-radius: 22px;
+      }
+
+      .progres-capcalera {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .zona-accio,
+      .boto-principal {
+        width: 100%;
+      }
+
+      .boto-principal.visible {
+        display: block;
+      }
+
+      .botons-finals {
+        flex-direction: column;
+      }
+
+      .botons-finals a,
+      .boto-reiniciar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="pagina">
+    <div class="barra-superior">
+      <a
+        class="marca"
+        href="index.html"
+        aria-label="Tornar a MindMap Youth"
+      >
+        <span class="marca-icona">🌱</span>
+        <span class="marca-text">MindMap Youth</span>
+      </a>
+
+      <a
+        class="boto-tornar"
+        href="index.html"
+      >
+        ← Tornar a l'inici
+      </a>
+    </div>
+
+    <header class="capcalera">
+      <span class="capcalera-icona">🕵️</span>
+
+      <h1>Detectiu dels pensaments</h1>
+
+      <p>
+        Analitza cada cas i identifica el pensament més
+        equilibrat, realista i respectuós.
+      </p>
+    </header>
+
+    <section
+      id="zonaJoc"
+      class="targeta"
+    >
+      <div class="progres-capcalera">
+        <span id="numeroPregunta">
+          Situació 1 de 10
+        </span>
+
+        <span id="puntuacio">
+          Punts: 0
+        </span>
+      </div>
+
+      <div
+        class="barra-progres"
+        role="progressbar"
+        aria-label="Progrés de l'activitat"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="10"
+      >
+        <div
+          id="barraProgres"
+          class="barra-progres-interior"
+        ></div>
+      </div>
+
+      <span class="etiqueta">
+        Cas per investigar
+      </span>
+
+      <h2
+        id="situacio"
+        class="situacio"
+      ></h2>
+
+      <p class="pregunta">
+        Quin pensament és més saludable i útil?
+      </p>
+
+      <div
+        id="opcions"
+        class="opcions"
+      ></div>
+
+      <div
+        id="feedback"
+        class="feedback"
+        aria-live="polite"
+      >
+        <h3 id="titolFeedback"></h3>
+        <p id="textFeedback"></p>
+      </div>
+
+      <div class="zona-accio">
+        <button
+          id="botoSeguent"
+          class="boto-principal"
+          type="button"
+        >
+          Següent situació
+        </button>
+      </div>
+
+      <div class="recordatori">
+        <strong>Recorda:</strong>
+        no es tracta de pensar sempre en positiu.
+        Es tracta de distingir els fets de les
+        interpretacions exagerades i parlar-nos amb respecte.
+      </div>
+    </section>
+
+    <section
+      id="pantallaFinal"
+      class="targeta pantalla-final"
+    >
+      <div class="final-icona">🎉</div>
+
+      <h2>Investigació completada</h2>
+
+      <div
+        id="puntuacioFinal"
+        class="puntuacio-final"
+      ></div>
+
+      <div
+        id="missatgeFinal"
+        class="missatge-final"
+      ></div>
+
+      <div class="aprenentatge-final">
+        <h3>Què has practicat?</h3>
+
+        <ul>
+          <li>
+            Diferenciar un fet d'una interpretació.
+          </li>
+
+          <li>
+            Evitar conclusions precipitades.
+          </li>
+
+          <li>
+            Acceptar els errors sense atacar-te.
+          </li>
+
+          <li>
+            Buscar alternatives més realistes.
+          </li>
+        </ul>
+      </div>
+
+      <div class="botons-finals">
+        <a
+          class="boto-tornar"
+          href="index.html"
+        >
+          ← Tornar a l'inici
+        </a>
+
+        <button
+          id="reiniciarJoc"
+          class="boto-reiniciar"
+          type="button"
+        >
+          Repetir l'activitat
+        </button>
+      </div>
+    </section>
+
+    <p class="peu">
+      Aquesta activitat és educativa i no substitueix
+      l'acompanyament d'una persona adulta o professional.
+    </p>
+  </main>
+
+  <script>
+    const preguntes = [
+      {
+        situacio:
+          "Has suspés un examen que havies preparat.",
+        opcions: [
+          {
+            text:
+              "Soc un desastre i mai aprovaré res.",
+            correcta: false
+          },
+          {
+            text:
+              "Aquest examen no m'ha eixit bé. Puc revisar què ha fallat i demanar ajuda.",
+            correcta: true
+          },
+          {
+            text:
+              "No val la pena tornar-ho a intentar.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Un resultat concret no defineix la teua capacitat. Pots analitzar què ha fallat i provar una estratègia diferent."
+      },
+      {
+        situacio:
+          "Dos amics han quedat i no t'han avisat.",
+        opcions: [
+          {
+            text:
+              "Segur que ja no em volen.",
+            correcta: false
+          },
+          {
+            text:
+              "Pot haver-hi diverses explicacions. Puc preguntar-ho abans de traure conclusions.",
+            correcta: true
+          },
+          {
+            text:
+              "No tornaré a parlar amb ells.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "No podem saber què pensen els altres sense preguntar. Comprovar els fets evita conclusions precipitades."
+      },
+      {
+        situacio:
+          "Has comés un error davant de tota la classe.",
+        opcions: [
+          {
+            text:
+              "Tothom pensarà que soc ridícul o ridícula.",
+            correcta: false
+          },
+          {
+            text:
+              "Equivocar-me és normal. Un error no defineix qui soc.",
+            correcta: true
+          },
+          {
+            text:
+              "No tornaré a participar mai més.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Els errors formen part de l'aprenentatge. Una situació puntual no determina el teu valor."
+      },
+      {
+        situacio:
+          "Veus en xarxes socials una persona que sembla tindre una vida perfecta.",
+        opcions: [
+          {
+            text:
+              "La seua vida és perfecta i la meua no val res.",
+            correcta: false
+          },
+          {
+            text:
+              "A les xarxes es mostra només una part de la realitat. No és una comparació completa.",
+            correcta: true
+          },
+          {
+            text:
+              "Hauria de ser exactament com aquesta persona.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Les xarxes solen mostrar moments seleccionats. Comparar tota la teua vida amb una imatge parcial no és just."
+      },
+      {
+        situacio:
+          "Un company fa un comentari negatiu sobre el teu aspecte.",
+        opcions: [
+          {
+            text:
+              "Si ho ha dit, deu ser perquè té raó.",
+            correcta: false
+          },
+          {
+            text:
+              "La seua opinió no determina el meu valor. Puc posar límits i buscar suport.",
+            correcta: true
+          },
+          {
+            text:
+              "He de canviar perquè ningú em critique.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Una opinió no és una veritat absoluta. Posar límits i parlar amb algú de confiança és una resposta protectora."
+      },
+      {
+        situacio:
+          "No has aconseguit fer bé una activitat nova al primer intent.",
+        opcions: [
+          {
+            text:
+              "No se'm dona bé i hauria de deixar-ho.",
+            correcta: false
+          },
+          {
+            text:
+              "Encara estic aprenent. No necessite fer-ho perfecte al primer intent.",
+            correcta: true
+          },
+          {
+            text:
+              "La resta sempre ho fa millor que jo.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Aprendre implica practicar, equivocar-se i progressar. No cal dominar una habilitat des del principi."
+      },
+      {
+        situacio:
+          "Has enviat un missatge i la persona tarda molt a respondre.",
+        opcions: [
+          {
+            text:
+              "Està enfadada amb mi i he fet alguna cosa malament.",
+            correcta: false
+          },
+          {
+            text:
+              "Pot estar ocupada o no haver vist el missatge. Esperaré abans d'interpretar-ho.",
+            correcta: true
+          },
+          {
+            text:
+              "Segur que ja no vol parlar amb mi.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Una resposta tardana pot tindre moltes causes. És millor esperar informació abans d'assumir la pitjor explicació."
+      },
+      {
+        situacio:
+          "No t'han seleccionat per a una activitat o un equip.",
+        opcions: [
+          {
+            text:
+              "No soc prou bo o bona per a res.",
+            correcta: false
+          },
+          {
+            text:
+              "Aquesta vegada no m'han seleccionat, però això no defineix totes les meues capacitats.",
+            correcta: true
+          },
+          {
+            text:
+              "Mai tornaré a presentar-me a res.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Una decisió concreta no determina tot el teu potencial. Pots demanar orientació i continuar desenvolupant les teues habilitats."
+      },
+      {
+        situacio:
+          "Un amic està més callat que de costum quan parleu.",
+        opcions: [
+          {
+            text:
+              "Segur que està molest amb mi.",
+            correcta: false
+          },
+          {
+            text:
+              "Pot tindre un mal dia. Puc preguntar-li com està sense assumir que és culpa meua.",
+            correcta: true
+          },
+          {
+            text:
+              "Ja no li caic bé.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "L'estat d'ànim d'una altra persona no sempre té relació amb tu. Preguntar amb respecte és més útil que endevinar."
+      },
+      {
+        situacio:
+          "Has rebut una crítica sobre un treball que havies fet amb esforç.",
+        opcions: [
+          {
+            text:
+              "Tot el treball és horrible i jo no servisc per a açò.",
+            correcta: false
+          },
+          {
+            text:
+              "La crítica pot ajudar-me a millorar una part del treball, però no anul·la tot l'esforç que he fet.",
+            correcta: true
+          },
+          {
+            text:
+              "No tornaré a ensenyar mai el que faig.",
+            correcta: false
+          }
+        ],
+        explicacio:
+          "Una crítica pot referir-se a aspectes concrets. No significa que tot estiga malament ni que tu no tingues capacitat."
+      }
+    ];
+
+    const situacioElement =
+      document.getElementById("situacio");
+
+    const opcionsElement =
+      document.getElementById("opcions");
+
+    const numeroPreguntaElement =
+      document.getElementById("numeroPregunta");
+
+    const puntuacioElement =
+      document.getElementById("puntuacio");
+
+    const barraProgresElement =
+      document.getElementById("barraProgres");
+
+    const contenidorBarra =
+      document.querySelector(".barra-progres");
+
+    const feedbackElement =
+      document.getElementById("feedback");
+
+    const titolFeedbackElement =
+      document.getElementById("titolFeedback");
+
+    const textFeedbackElement =
+      document.getElementById("textFeedback");
+
+    const botoSeguent =
+      document.getElementById("botoSeguent");
+
+    const zonaJoc =
+      document.getElementById("zonaJoc");
+
+    const pantallaFinal =
+      document.getElementById("pantallaFinal");
+
+    const puntuacioFinalElement =
+      document.getElementById("puntuacioFinal");
+
+    const missatgeFinalElement =
+      document.getElementById("missatgeFinal");
+
+    const reiniciarJoc =
+      document.getElementById("reiniciarJoc");
+
+    let preguntaActual = 0;
+    let puntuacio = 0;
+    let respostaSeleccionada = false;
+
+    function actualitzarProgres() {
+      const percentatge =
+        ((preguntaActual + 1) / preguntes.length) * 100;
+
+      barraProgresElement.style.width =
+        `${percentatge}%`;
+
+      contenidorBarra.setAttribute(
+        "aria-valuenow",
+        Math.round(percentatge)
+      );
+    }
+
+    function mostrarPregunta() {
+      respostaSeleccionada = false;
+
+      const pregunta =
+        preguntes[preguntaActual];
+
+      situacioElement.textContent =
+        pregunta.situacio;
+
+      numeroPreguntaElement.textContent =
+        `Situació ${preguntaActual + 1} de ${preguntes.length}`;
+
+      puntuacioElement.textContent =
+        `Punts: ${puntuacio}`;
+
+      actualitzarProgres();
+
+      opcionsElement.innerHTML = "";
+
+      feedbackElement.className =
+        "feedback";
+
+      titolFeedbackElement.textContent = "";
+      textFeedbackElement.textContent = "";
+
+      botoSeguent.classList.remove("visible");
+
+      pregunta.opcions.forEach(
+        (opcio, index) => {
+          const boto =
+            document.createElement("button");
+
+          boto.type = "button";
+          boto.className = "opcio";
+          boto.textContent = opcio.text;
+
+          boto.addEventListener(
+            "click",
+            () => {
+              comprovarResposta(
+                boto,
+                opcio.correcta,
+                index
+              );
+            }
+          );
+
+          opcionsElement.appendChild(boto);
+        }
+      );
+    }
+
+    function comprovarResposta(
+      botoSeleccionat,
+      esCorrecta,
+      indexSeleccionat
+    ) {
+      if (respostaSeleccionada) {
+        return;
+      }
+
+      respostaSeleccionada = true;
+
+      const pregunta =
+        preguntes[preguntaActual];
+
+      const botons =
+        opcionsElement.querySelectorAll(".opcio");
+
+      botons.forEach((boto, index) => {
+        boto.disabled = true;
+
+        if (pregunta.opcions[index].correcta) {
+          boto.classList.add("correcta");
+        }
+      });
+
+      if (esCorrecta) {
+        puntuacio++;
+
+        botoSeleccionat.classList.add(
+          "correcta"
+        );
+
+        feedbackElement.className =
+          "feedback visible correcte";
+
+        titolFeedbackElement.textContent =
+          "Bona investigació!";
+      } else {
+        botons[indexSeleccionat].classList.add(
+          "incorrecta"
+        );
+
+        feedbackElement.className =
+          "feedback visible incorrecte";
+
+        titolFeedbackElement.textContent =
+          "Revisa les proves";
+      }
+
+      textFeedbackElement.textContent =
+        pregunta.explicacio;
+
+      puntuacioElement.textContent =
+        `Punts: ${puntuacio}`;
+
+      botoSeguent.classList.add("visible");
+
+      if (
+        preguntaActual ===
+        preguntes.length - 1
+      ) {
+        botoSeguent.textContent =
+          "Veure el resultat";
+      } else {
+        botoSeguent.textContent =
+          "Següent situació";
+      }
+    }
+
+    botoSeguent.addEventListener(
+      "click",
+      () => {
+        preguntaActual++;
+
+        if (
+          preguntaActual <
+          preguntes.length
+        ) {
+          mostrarPregunta();
+        } else {
+          mostrarResultatFinal();
+        }
+      }
+    );
+
+    function mostrarResultatFinal() {
+      zonaJoc.style.display = "none";
+      pantallaFinal.classList.add("visible");
+
+      puntuacioFinalElement.textContent =
+        `${puntuacio} de ${preguntes.length} punts`;
+
+      if (puntuacio === preguntes.length) {
+        missatgeFinalElement.textContent =
+          "Excel·lent investigació. Has identificat totes les alternatives més realistes i respectuoses. Recorda que parlar-te amb amabilitat no és ignorar els problemes, sinó afrontar-los sense atacar-te.";
+      } else if (puntuacio >= 7) {
+        missatgeFinalElement.textContent =
+          "Molt bon treball. Ja reconeixes moltes formes de pensament equilibrat. Continua practicant la diferència entre els fets i les interpretacions automàtiques.";
+      } else if (puntuacio >= 4) {
+        missatgeFinalElement.textContent =
+          "Has fet una bona primera investigació. Alguns pensaments automàtics poden semblar certs, però és útil buscar proves i alternatives abans d'acceptar-los.";
+      } else {
+        missatgeFinalElement.textContent =
+          "Has completat l'activitat, i això ja és un pas important. Detectar pensaments automàtics necessita pràctica. Pots repetir els casos i observar quines respostes són més realistes.";
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    reiniciarJoc.addEventListener(
+      "click",
+      () => {
+        preguntaActual = 0;
+        puntuacio = 0;
+        respostaSeleccionada = false;
+
+        pantallaFinal.classList.remove(
+          "visible"
+        );
+
+        zonaJoc.style.display = "block";
+
+        mostrarPregunta();
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    );
+
+    mostrarPregunta();
+  </script>
+</body>
+</html>
