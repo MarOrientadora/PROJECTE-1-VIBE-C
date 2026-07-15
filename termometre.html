@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Termòmetre de les Emocions</title>
+    <link rel="stylesheet" href="css/termometre.css">
+    </head>
+<body>
+
+    <header class="header-termometre">
+        <h1>🌡️ El Termòmetre de les Emocions</h1>
+        <p>Aprèn a identificar la intensitat del que sents i com regular-ho.</p>
+    </header>
+
+    <main class="contenidor-termometre">
+        <section class="zona-text">
+            <div class="caixa-situacio">
+                <h2>Situació Actual:</h2>
+                <p id="text-situacio" class="text-destacat">Carregant situació...</p>
+            </div>
+
+            <div class="caixa-feedback" id="caixa-feedback">
+                <h3>💡 Consell de Regulació:</h3>
+                <p id="text-feedback">Tria un nivell al termòmetre de la dreta per a veure com gestionar aquesta situació.</p>
+            </div>
+
+            <div class="botons-navegacio">
+                <button id="boto-seguent" class="boto-actiu">Següent Situació ➡️</button>
+                <br><br>
+                <a href="index.html" class="enllac-tornar">⬅️ Tornar al Menú Principal</a>
+            </div>
+        </section>
+
+        <section class="zona-termometre">
+         <div class="termometre-tub">
+                    <div class="nivell nivell-roig" data-nivell="4" data-color="#ffb3b3">
+                        <span class="etiqueta-nivell">🔴 PÀNIC</span>
+                    </div>
+                    <div class="nivell nivell-taronja" data-nivell="3" data-color="#ffe0b3">
+                        <span class="etiqueta-nivell">🟠 ALERTA</span>
+                    </div>
+                    <div class="nivell nivell-groc" data-nivell="2" data-color="#fff9b3">
+                        <span class="etiqueta-nivell">🟡 INQUIET</span>
+                    </div>
+                    <div class="nivell nivell-verd" data-nivell="1" data-color="#d1f2d3">
+                        <span class="etiqueta-nivell">🟢 CALMA</span>
+                    </div>
+                </div>   
+        </section>
+    </main>
+
+    <script src="js/termometre.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Termòmetre de les Emocions</title>
+    
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="css/termometre.css">
+</head>
+<body>
+
+    <header style="text-align: center; margin-top: 20px;">
+        <h1>🌡️ El Termòmetre de les Emocions</h1>
+        <p>Aprèn a identificar la intensitat del que sents i com regular-ho.</p>
+    </header>
+
+    <main class="contenidor-termometre">
+        <section class="zona-text">
+            <div class="caixa-situacio">
+                <h2>Situació Actual:</h2>
+                <p id="text-situacio" class="text-destacat">Carregant situació...</p>
+            </div>
+
+            <div class="caixa-feedback" id="caixa-feedback">
+                <h3>💡 Consell de Regulació:</h3>
+                <p id="text-feedback">Tria un nivell al termòmetre de la dreta per a veure com gestionar aquesta situació.</p>
+            </div>
+
+            <div class="botons-navegacio">
+                <button id="boto-seguent">Següent Situació ➡️</button>
+                <br><br>
+                <a href="index.html" class="enllac-tornar">⬅️ Tornar al Menú Principal</a>
+            </div>
+        </section>
+
+        <section class="zona-termometre">
+            <div class="termometre-contenidor">
+                <div class="termometre-tub">
+                    <div class="nivell nivell-roig" data-nivell="4" data-color="#ff4d4d">
+                        <span class="etiqueta-nivell">🔴 PÀNIC</span>
+                    </div>
+                    <div class="nivell nivell-taronja" data-nivell="3" data-color="#ffa64d">
+                        <span class="etiqueta-nivell">🟠 ALERTA</span>
+                    </div>
+                    <div class="nivell nivell-groc" data-nivell="2" data-color="#ffeb3b">
+                        <span class="etiqueta-nivell">🟡 INQUIET</span>
+                    </div>
+                    <div class="nivell nivell-verd" data-nivell="1" data-color="#4caf50">
+                        <span class="etiqueta-nivell">🟢 CALMA</span>
+                    </div>
+                </div>
+                <div class="termometre-bombolla" id="bombolla-termometre"></div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/termometre.js"></script>
+</body>
+</html>
